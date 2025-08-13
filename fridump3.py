@@ -114,11 +114,12 @@ def on_message(message, data):
 script = session.create_script("""'use strict';
 
 rpc.exports = {
-  enumerateRanges: function (prot) {
-    return Process.enumerateRangesSync(prot);
+  enumerateRanges: async function (prot) {
+    const ranges = await Process.enumerateRanges(prot);
+    return ranges;
   },
   readMemory: function (address, size) {
-    return Memory.readByteArray(ptr(address), size);
+    return ptr(address).readByteArray(size);
   }
 };
 """)
